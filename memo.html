@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>간단한 메모장</title>
+	<style>
+		body {
+			text-align: center;
+			font-size: 2em;
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		textarea {
+			font-size: 1.5em;
+			padding: 1em;
+			width: 100%;
+			max-width: 600px;
+			height: 300px;
+			border: none;
+			border-bottom: 1px solid #000;
+			resize: none;
+			margin-bottom: 2em;
+		}
+
+		button {
+			font-size: 1.5em;
+			padding: 0.5em 1em;
+			background-color: #fff;
+			color: #000;
+			border: none;
+			cursor: pointer;
+		}
+
+		.saved {
+			font-size: 1.5em;
+			color: green;
+			margin-bottom: 1em;
+		}
+	</style>
+</head>
+<body>
+	<h1>간단한 메모장</h1>
+	<textarea id="memo"></textarea>
+	<button onclick="saveMemo()">저장</button>
+	<div class="saved" id="saved">저장되었습니다.</div>
+
+	<script>
+		function saveMemo() {
+			// 입력된 메모 가져오기
+			var memo = document.getElementById("memo").value;
+
+			// 로컬 스토리지에 저장
+			localStorage.setItem("memo", memo);
+
+			// 저장 메시지 표시
+			var savedElement = document.getElementById("saved");
+			savedElement.style.display = "block";
+			setTimeout(function() {
+				savedElement.style.display = "none";
+			}, 2000);
+		}
+
+		// 페이지 로드 시 저장된 메모 가져오기
+		window.onload = function() {
+			var memo = localStorage.getItem("memo");
+			if (memo) {
+				document.getElementById("memo").value = memo;
+			}
+		};
+	</script>
+</body>
+</html>
