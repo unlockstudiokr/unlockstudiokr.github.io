@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>단위 변환기</title>
+	<style>
+		body {
+			text-align: center;
+			font-size: 2em;
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 2em;
+		}
+
+		label {
+			font-size: 1.5em;
+			margin-bottom: 1em;
+		}
+
+		input[type=number] {
+			font-size: 1.5em;
+			padding: 0.5em 1em;
+			margin-bottom: 2em;
+			border: none;
+			border-bottom: 1px solid #000;
+			text-align: center;
+			width: 100%;
+			max-width: 400px;
+		}
+
+		select {
+			font-size: 1.5em;
+			padding: 0.5em 1em;
+			margin-bottom: 2em;
+			border: none;
+			border-bottom: 1px solid #000;
+			text-align: center;
+			width: 100%;
+			max-width: 400px;
+		}
+
+		button {
+			font-size: 1.5em;
+			padding: 0.5em 1em;
+			background-color: #fff;
+			color: #000;
+			border: none;
+			cursor: pointer;
+		}
+
+		.result {
+			font-size: 2em;
+			margin-top: 2em;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<h1>단위 변환기</h1>
+	<form onsubmit="return false;">
+		<label for="from-input">변환할 단위</label>
+		<input type="number" id="from-input" placeholder="숫자를 입력하세요" required />
+		<select id="from-unit">
+			<option value="m">미터</option>
+			<option value="cm">센티미터</option>
+			<option value="km">킬로미터</option>
+			<option value="inch">인치</option>
+			<option value="foot">피트</option>
+			<option value="yard">야드</option>
+			<option value="mile">마일</option>
+		</select>
+
+		<label for="to-unit">변환 결과</label>
+		<div class="result" id="to-result"></div>
+		<select id="to-unit">
+			<option value="m">미터</option>
+			<option value="cm">센티미터</option>
+			<option value="km">킬로미터</option>
+			<option value="inch">인치</option>
+			<option value="foot">피트</option>
+			<option value="yard">야드</option>
+			<option value="mile">마일</option>
+    </select>
+    	<button onclick="convertUnits()">변환하기</button>
+</form>
+
+<script>
+	function convertUnits() {
+		// 입력된 값 가져오기
+		var fromValue = document.getElementById("from-input").value;
+		var fromUnit = document.getElementById("from-unit").value;
+		var toUnit = document.getElementById("to-unit").value;
+
+		// 단위 변환
+		var factors = {
+			"m": 1,
+			"cm": 0.01,
+			"km": 1000,
+			"inch": 0.0254,
+			"foot": 0.3048,
+			"yard": 0.9144,
+			"mile": 1609.344
+		};
+		var fromFactor = factors[fromUnit];
+		var toFactor = factors[toUnit];
+		var result = fromValue * fromFactor / toFactor;
+
+		// 결과 출력
+		document.getElementById("to-result").innerHTML = result;
+		document.querySelector(".result").style.display = "block";
+	}
+</script>
