@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>색상 선택 도구</title>
+  <style>
+    h1 {
+      text-align: center;
+    }
+
+    #color-picker {
+      margin: 20px auto;
+      display: block;
+    }
+
+    #color-code {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>색상 선택 도구</h1>
+  <input type="color" id="color-picker">
+  <div id="color-code"></div>
+  
+  <script>
+    const colorPicker = document.getElementById('color-picker');
+    const colorCode = document.getElementById('color-code');
+
+    colorPicker.addEventListener('change', () => {
+      colorCode.innerText = `선택한 색상 코드: ${colorPicker.value}`;
+    });
+  </script>
+</body>
+</html>
