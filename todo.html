@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>간단한 TODO 리스트</title>
+	<style>
+		body {
+			text-align: center;
+			font-size: 2em;
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		input[type="text"] {
+			font-size: 1.5em;
+			padding: 0.5em;
+			border: none;
+			border-bottom: 1px solid #000;
+			width: 100%;
+			max-width: 600px;
+			margin-bottom: 2em;
+		}
+
+		button {
+			font-size: 1.5em;
+			padding: 0.5em 1em;
+			background-color: #fff;
+			color: #000;
+			border: none;
+			cursor: pointer;
+		}
+
+		.todo-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			max-width: 600px;
+			margin-bottom: 2em;
+		}
+
+		.todo-item {
+			display: flex;
+			align-items: center;
+			border: 1px solid #000;
+			padding: 0.5em;
+			margin-bottom: 0.5em;
+		}
+
+		.todo-item-text {
+			flex-grow: 1;
+			font-size: 1.2em;
+			margin: 0;
+		}
+
+		.todo-item-delete {
+			font-size: 1.2em;
+			margin-left: 1em;
+			color: red;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<h1>간단한 TODO 리스트</h1>
+	<input type="text" id="todo-input" placeholder="할 일을 입력하세요">
+	<button onclick="addTodo()">추가</button>
+	<ul class="todo-list" id="todo-list"></ul>
+
+	<script>
+		// 저장된 todo 리스트 가져오기
+		var todoList = JSON.parse(localStorage.getItem("todoList")) || [];
+
+		// todo 리스트 출력
+		function renderTodoList() {
+			var todoListElement = document.getElementById("todo-list");
+			todoListElement.innerHTML = "";
+			todoList.forEach(function(todo, index) {
+				var todoItem = document.createElement("li");
+				todoItem.classList.add("todo-item");
+
+				var todoItemText = document.createElement("p");
+				todoItemText.classList.add("todo-item-text");
+				todoItemText.innerHTML = todo;
+
+				var todoItemDelete = document.createElement("span");
+				todoItemDelete.classList.add("todo-item-delete");
+				todoItemDelete.innerHTML = "x";
+				todoItemDelete.onclick = function() {
+					deleteTodoItem(index);
+				};
+
+				todoItem.appendChild(todoItemText);
+				todoItem.appendChild(todoItemDelete);
+
+				todoListElement.appendChild(todoItem);
+			});
+		}
+
+		// todo 추가
+		function addTodo() {
+			var todoInput = document.getElementById("todo-input");
+			var todo = todoInput.value.trim();
+		// 입력된 todo가 있을 경우에만 추가
+		if (todo) {
+			todoList.push(todo);
+			localStorage.setItem("todoList", JSON.stringify(todoList));
+			renderTodoList();
+			todoInput.value = "";
+		}
+	}
+
+	// todo 삭제
+	function deleteTodoItem(index) {
+		todoList.splice(index, 1);
+		localStorage.setItem("todoList", JSON.stringify(todoList));
+		renderTodoList();
+	}
+
+	// 페이지 로드 시 todo 리스트 출력
+	window.onload = function() {
+		renderTodoList();
+	};
+</script>
