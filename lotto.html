@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>로또 번호 생성기</title>
+	<style>
+		body {
+			text-align: center;
+			font-size: 2em;
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		button {
+			font-size: 1.5em;
+			padding: 0.5em 1em;
+			background-color: #fff;
+			color: #000;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<h1>로또 번호 생성기</h1>
+	<button onclick="generateNumbers()">번호 생성하기</button>
+	<div id="numbers"></div>
+	
+	<script>
+		function generateNumbers() {
+			var numbers = [];
+
+			// 1부터 45까지의 숫자를 배열에 추가
+			for (var i = 1; i <= 45; i++) {
+				numbers.push(i);
+			}
+
+			// 배열을 랜덤하게 섞음
+			for (var i = numbers.length - 1; i > 0; i--) {
+				var j = Math.floor(Math.random() * (i + 1));
+				var temp = numbers[i];
+				numbers[i] = numbers[j];
+				numbers[j] = temp;
+			}
+
+			// 앞에서 6개의 숫자를 선택하여 정렬
+			var selectedNumbers = numbers.slice(0, 6).sort(function(a, b) { return a - b; });
+
+			// 번호 출력
+			document.getElementById("numbers").innerHTML = selectedNumbers.join(", ");
+		}
+	</script>
+</body>
+</html>
