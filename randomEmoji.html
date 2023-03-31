@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>랜덤 이모지 생성기</title>
+	<style>
+		body {
+			text-align: center;
+			font-size: 4em;
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		button {
+			font-size: 1em;
+			padding: 0.5em 1em;
+			margin-top: 2em;
+			background-color: #fff;
+			color: #000;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<h1>랜덤 이모지 생성기</h1>
+	<div id="emoji"></div>
+	<button onclick="generateEmoji()">새 이모지 생성하기</button>
+	
+	<script>
+		var emojis = [
+			"😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", "😇",
+			"🙂", "🙃", "😉", "😌", "😍", "🥰", "😘", "😗", "😙", "😚",
+			"😋", "😛", "😜", "🤪", "😝", "🤑", "🤗", "🤭", "🤫", "🤔"
+		];
+
+		function generateEmoji() {
+			// 이모지 랜덤 선택
+			var emoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+			// 이모지 출력
+			document.getElementById("emoji").innerHTML = emoji;
+		}
+	</script>
+</body>
+</html>
