@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>요리 타이머</title>
+	<style>
+		body {
+			text-align: center;
+			font-size: 2em;
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		input[type=number] {
+			font-size: 1.5em;
+			padding: 0.5em 1em;
+			margin-bottom: 1em;
+		}
+
+		button {
+			font-size: 1.5em;
+			padding: 0.5em 1em;
+			background-color: #fff;
+			color: #000;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<h1>요리 타이머</h1>
+	<input type="number" id="minutes-input" placeholder="분" min="0" max="60" />
+	<input type="number" id="seconds-input" placeholder="초" min="0" max="59" />
+	<button onclick="startTimer()">시작</button>
+	<div id="timer"></div>
+
+	<script>
+		var countdown;
+
+		function startTimer() {
+			// 입력된 분, 초 값 가져오기
+			var minutes = document.getElementById("minutes-input").value;
+			var seconds = document.getElementById("seconds-input").value;
+
+			// 입력된 시간이 유효한지 검사
+			if (minutes == "" || seconds == "" || isNaN(minutes) || isNaN(seconds)) {
+				alert("분과 초를 모두 입력해주세요.");
+				return;
+			}
+
+			// 시간을 초 단위로 변환
+			var totalSeconds = (parseInt(minutes) * 60) + parseInt(seconds);
+
+			// 카운트다운 시작
+			countdown = setInterval(function() {
+				// 남은 시간 계산
+				var minutes = Math.floor(totalSeconds / 60);
+				var seconds = totalSeconds % 60;
+
+				// 시간 출력
+				document.getElementById("timer").innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
+				// 시간이 끝나면 타이머 정지
+				if (totalSeconds == 0) {
+					clearInterval(countdown);
+				}
+
+				// 남은 시간 1초 감소
+				totalSeconds--;
+			}, 1000);
+		}
+	</script>
+</body>
+</html>
