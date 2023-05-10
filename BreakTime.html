@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f1f1f1;
+            minHeight: 100vh;
+        }
+
+        input, button {
+            font-size: 1.2em;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 5px 0;
+        }
+
+        .controls {
+            width: 80%;
+            max-width: 300px;
+        }
+
+        #timer {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            padding: 0.5em;
+            background-color: #ff79c2;
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        #start, #stop {
+            color: white;
+            background-color: #6272a4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="number" id="breakTime" class="controls" placeholder="Break time in minutes">
+    <button id="start" class="controls">Start</button>
+    <button id="stop" class="controls" hidden>Stop</button>
+    <div id="timer" class="controls">00:00:00</div>
+
+    <script>
+        let countdown;
+        
+        const startButton = document.getElementById("start");
+        startButton.addEventListener("click", startCountdown);
+       
+        const stopButton = document.getElementById("stop");
+        stopButton.addEventListener("click", stopCountdown);
+
+        function startCountdown() {
+            const breakTimeInput = document.getElementById("breakTime");
+            let breakTime = parseInt(breakTimeInput.value);
+
+            if (isNaN(breakTime)) {
+                alert("Please enter a valid number.");
+                return;
+            }
+
+            let remainingTime = breakTime * 60 * 1000;
+            startButton.hidden = true;
+            stopButton.hidden = false;
+
+            countdown = setInterval(function () {
+                remainingTime -= 1000;
+
+                if (remainingTime <= 0) {
+                    clearInterval(countdown);
+                    remainingTime = 0;
+                }
+
+                const minutes = Math.floor(remainingTime / 60000);
+                const seconds = Math.floor((remainingTime - minutes * 60000) / 1000);
+
+                const formattedMinutes = addZeroPadding(minutes);
+                const formattedSeconds = addZeroPadding(seconds);
+
+                document.getElementById("timer").innerHTML = formattedMinutes + ":" + formattedSeconds;
+            }, 1000);
+        }
+
+        function stopCountdown() {
+            clearInterval(countdown);
+            startButton.hidden = false;
+            stopButton.hidden = true;
+        }
+        
+        function addZeroPadding(number) {
+            return number < 10 ? "0" + number : number;
+        }
+    </script>
+
+</body>
+</html>
