@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Extractor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 16px;
+    }
+    button {
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    #results {
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Email Extractor</h1>
+  <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+  <button id="extractEmails" onclick="extractEmails()">Extract Emails</button>
+  <div id="results"></div>
+  <script>
+    function extractEmails() {
+      const inputText = document.getElementById('inputText').value;
+      const emailRegex = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
+      const emails = inputText.match(emailRegex) || [];
+      const results = document.getElementById('results');
+  results.innerHTML = '<h2>Email Addresses:</h2>';
+  
+  if (emails.length) {
+    for (let email of emails) {
+      results.innerHTML += `<p>${email}</p>`;
+    }
+  } else {
+    results.innerHTML += '<p>No email addresses found.</p>';
+  }
+}
+
+  </script>
+</body>
+</html>
