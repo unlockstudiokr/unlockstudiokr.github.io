@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대화 필터링 웹페이지 (Chat Filtering Webpage)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+        }
+
+        button {
+            display: block;
+            margin: 10px 0;
+        }
+
+        #chatMessages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat Filter</h1>
+    <a href="https://sharegpt.com/c/lBFQEc3">프롬프트 보기</a>
+    <p> 설명 : 카카오톡 대화를 복사 붙여넣기하면 사용자별 메시지를 따로 볼 수 있습니다!</p>
+    <p> 아이디어 및 프롬프트 설계 : 미또/제조/기획</p>
+    <p> 제작 : GPT-4</p>
+    <textarea id="inputText" rows="10" cols="50" placeholder="여기에 대화를 붙여넣으세요.">오전 8:06 미또/제조/기획 소인 질문이 있습니다
+대화를 읽고 사용자를 픽리스트로 만들수 있을까요?
+오전 8:06 김승우 l 폴리매스 l IT 아 
+오전 8:07 김승우 l 폴리매스 l IT 사용자별로 메시지를 따로 필터링해서 보고싶으신걸까요?
+오전 8:07 숭어 픽리스트가
+오전 8:07 숭어 뭐죵!?</textarea>
+
+    <button onclick="processChat()">대화 처리</button>
+    <br>
+    <label for="users">사용자 선택:</label>
+    <select id="users" onchange="filterMessages()">
+        <option value="all">모든 사용자</option>
+    </select>
+    <div id="chatMessages"></div>
+    <script>
+        let messages = [];
+        let users = new Set();
+
+        function processChat() {
+            const inputText = document.getElementById("inputText").value;
+            const messageRegex = /오전 \d+:\d+ ([^ ]+) (.+)/g;
+            messages = [];
+            users.clear();
+            let match;
+
+            while ((match = messageRegex.exec(inputText)) !== null) {
+                messages.push({ user: match[1], content: match[2] });
+                users.add(match[1]);
+            }
+
+            const usersSelect = document.getElementById("users");
+            usersSelect.innerHTML = '<option value="all">모든 사용자</option>';
+
+            users.forEach((user) => {
+                const option = document.createElement("option");
+                option.value = user;
+                option.textContent = user;
+                usersSelect.appendChild(option);
+            });
+
+            displayMessages();
+        }
+
+        function filterMessages() {
+            const selectedUser = document.getElementById("users").value;
+            if (selectedUser === "all") {
+                displayMessages();
+            } else {
+                displayMessages(selectedUser);
+            }
+        }
+
+        function displayMessages(filterUser) {
+            const chatMessages = document.getElementById("chatMessages");
+            chatMessages.innerHTML = "";
+
+            messages.forEach((message) => {
+                if (!filterUser || message.user === filterUser) {
+                    const messageElement = document.createElement("p");
+                    messageElement.innerHTML = `<strong>${message.user}:</strong> ${message.content}`;
+                    chatMessages.appendChild(messageElement);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
