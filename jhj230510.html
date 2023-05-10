@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blank Removal Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80%;
+    }
+
+    #removeBlanks {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <label for="inputText">Enter text with blanks:</label>
+    <input type="text" id="inputText" placeholder="Type here">
+    <button id="removeBlanks">Remove Blanks</button>
+    <label for="outputText">Text without blanks:</label>
+    <input type="text" id="outputText" placeholder="Result" readonly>
+  </div>
+
+  <script>
+    const inputText = document.getElementById('inputText');
+    const outputText = document.getElementById('outputText');
+    const removeBlanks = document.getElementById('removeBlanks');
+
+    removeBlanks.addEventListener('click', () => {
+      const stringWithoutBlanks = inputText.value.replace(/\s+/g, '');
+      outputText.value = stringWithoutBlanks;
+    });
+  </script>
+</body>
+</html>
