@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>윷놀이</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    button {
+      font-size: 24px;
+      padding: 20px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button id="playGame">윷 던지기</button>
+    <div id="result"></div>
+  </div>
+  <script>
+     document.getElementById("playGame").addEventListener("click", () => {
+      const results = ['도', '개', '걸', '윷', '모'];
+       
+      // 0 ~ 4 사이의 난수를 생성합니다.
+      const randomNumber = Math.floor(Math.random() * results.length);
+
+      // 결과를 출력합니다.
+      document.getElementById("result").innerHTML = `결과: ${results[randomNumber]}`;
+    });
+  </script>
+</body>
+</html>
