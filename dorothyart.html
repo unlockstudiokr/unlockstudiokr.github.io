@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>그리기 앱</title>
+  <style>
+    #canvas {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+  <div>
+    <button id="save">저장</button>
+    <button id="clear">초기화</button>
+    <input type="color" id="color">
+    <input type="range" id="brush-size" min="1" max="50" value="10">
+  </div>
+  
+  <script>
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let hue = 0;
+    let direction = true;
+    let brushSize = 10;
+    let brushColor = "#000";
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function draw(e) {
+      if (!isDrawing) return;
+      context.strokeStyle = brushColor;
+      context.lineWidth = brushSize;
+      context.lineJoin = 'round';
+      context.lineCap = 'round';
+      context.beginPath();
+      context.moveTo(lastX, lastY);
+      context.lineTo(e.offsetX, e.offsetY);
+      context.stroke();
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+      hue++;
+      if (hue >= 360) {
+        hue = 0;
+      }
+      if (direction) {
+        brushSize++;
+      } else {
+        brushSize--;
+      }
+      if (brushSize >= 50 || brushSize <= 1) {
+        direction = !direction;
+      }
+    }
+
+    function clearCanvas() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function saveCanvas() {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL();
+      link.download = 'image.png';
+      link.click();
+    }
+
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mousedown', (e) => {
+      isDrawing = true;
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+    
+    document.getElementById('color').addEventListener('change', (e) => {
+      brushColor = e.target.value;
+    });
+    
+    document.getElementById('brush-size').addEventListener('input', (e) => {
+      brushSize = e.target.value;
+    });
+
+    document.getElementById('clear').addEventListener('click', clearCanvas);
+
+    document.getElementById('save').addEventListener('click', saveCanvas);
+  </script>
+</body>
+</html>
+
+
