@@ -11,6 +11,10 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      background-color: #eee;
+    }
+    .container {
+      flex-direction: column;
     }
     button {
       font-size: 24px;
@@ -20,23 +24,95 @@
       margin-top: 20px;
       font-size: 18px;
     }
+    #board {
+      display: flex;
+      margin: 15px;
+      width: 360px;
+      height: 280px;
+      position: relative;
+      border: 3px solid black;
+    }
+    .cell {
+      flex: 1 1 auto;
+      height: 90px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-right: 1px solid black;
+    }
+    .cell:last-child {
+      border-right: 0;
+    }
+    .horse {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background-color: red;
+      border-radius: 50%;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <button id="playGame">윷 던지기</button>
     <div id="result"></div>
+    <div id="board">
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
   </div>
   <script>
-     document.getElementById("playGame").addEventListener("click", () => {
-      const results = ['도', '개', '걸', '윷', '모'];
-       
-      // 0 ~ 4 사이의 난수를 생성합니다.
+    // 윷 결과
+    const results = ['도', '개', '걸', '윷', '모'];
+    
+    // 말 위치
+    let currentPosition = 0;
+
+    // 게임 버튼 이벤트
+    document.getElementById("playGame").addEventListener("click", () => {
+      // 윷 결과를 무작위로 생성
       const randomNumber = Math.floor(Math.random() * results.length);
 
-      // 결과를 출력합니다.
+      // 결과에 따른 말 이동
+      switch (results[randomNumber]) {
+        case '도':
+          moveHorse(1);
+          break;
+        case '개':
+          moveHorse(2);
+          break;
+        case '걸':
+          moveHorse(3);
+          break;
+        case '윷':
+          moveHorse(4);
+          break;
+        case '모':
+          moveHorse(randomNumber + 1);
+          break;
+      }
+
+      // 결과 출력
       document.getElementById("result").innerHTML = `결과: ${results[randomNumber]}`;
     });
+
+    // 말 이동 함수
+    function moveHorse(movement) {
+      const cells = document.querySelectorAll('.cell');
+      const horse = document.createElement('div'); // 말 생성
+      horse.className = 'horse';
+
+      currentPosition += movement;
+
+      // 이동 후 위치가 판을 넘어가면 처음으로 돌아오게 함
+      if (currentPosition >= cells.length) {
+        currentPosition = currentPosition % cells.length;
+      }
+
+      cells[currentPosition].appendChild(horse); // 이동 후 위치에 말 추가
+    }
   </script>
 </body>
 </html>
