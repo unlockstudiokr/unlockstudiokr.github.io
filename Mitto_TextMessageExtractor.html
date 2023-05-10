@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Text Message Extractor</title>
+	<style>
+		body {
+			max-width: 500px;
+			margin: 0 auto;
+			padding: 30px;
+			font-family: sans-serif;
+			line-height: 1.5;
+			text-align: center;
+		}
+
+		button, input[type="submit"] {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			margin-top: 10px;
+		}
+		
+		button:hover, input[type="submit"]:hover {
+			background-color: #3e8e41;
+		}
+
+		input[type="text"] {
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			font-size: 16px;
+			margin-top: 10px;
+			width: 100%;
+		}
+
+		textarea {
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			font-size: 16px;
+			margin: 10px 0;
+			width: 100%;
+			height: 300px;
+		}
+
+	</style>
+</head>
+<body>
+	<h1>Text Message Extractor</h1>
+	<p>Enter the person's name and the text message conversation below. The tool will extract only the text messages sent by that person.</p>
+	<form id="form">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name" placeholder="Enter name...">
+		<label for="conversation">Conversation:</label>
+		<textarea id="conversation" name="conversation" placeholder="Enter conversation..."></textarea>
+		<button type="submit">Extract Text Messages</button>
+	</form>
+	<script>
+		document.getElementById("form").addEventListener("submit", function(event) {
+			event.preventDefault();
+			// get the form data
+			const name = document.getElementById("name").value;
+			const conversation = document.getElementById("conversation").value;
+			// extract the text messages from the conversation
+			const messages = conversation.split("\n");
+			const filteredMessages = messages.filter(message => message.startsWith(name + ": "));
+			// convert the filtered messages array to a string
+			const filteredConversation = filteredMessages.join("\n");
+			// display the filtered conversation in the text area
+			document.getElementById("conversation").value = filteredConversation;
+		});
+	</script>
+</body>
+</html>
+
