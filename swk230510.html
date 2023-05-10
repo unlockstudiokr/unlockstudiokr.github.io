@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공백 제거 도구</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+      color: #00ff00;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      background-color: #00ff00;
+      border: none;
+      color: #000;
+    }
+
+    input::placeholder {
+      color: #000;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    #output {
+      padding: 10px;
+      border: 1px solid #00ff00;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>공백 제거 도구</h1>
+    <input type="text" id="inputText" placeholder="공백이 있는 텍스트를 입력하세요">
+    <button onclick="removeSpaces()">공백 제거</button>
+    <div id="output"></div>
+  </div>
+  <div class="footer">김승우가 만들었습니다.</div>
+
+  <script>
+    function removeSpaces() {
+      const inputText = document.getElementById('inputText');
+      const output = document.getElementById('output');
+      const result = inputText.value.replace(/\s+/g, '');
+      output.innerHTML = `결과: <strong>${result}</strong>`;
+    }
+  </script>
+</body>
+</html>
