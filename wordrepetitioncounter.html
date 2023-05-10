@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract Repeated Specific Word</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        textarea,
+        input {
+            width: 50%;
+            margin-bottom: 1rem;
+        }
+        textarea {
+            height: 150px;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <h1>Extract Repeated Specific Word</h1>
+    <textarea id="inputText" placeholder="Enter your text..."></textarea><br>
+    <input type="text" id="specificWord" placeholder="Enter the specific word..."><br>
+    <button onclick="extractRepeatedSpecificWord()">Check Repetitions</button>
+    <p id="result"></p>
+
+    <script>
+        function extractRepeatedSpecificWord() {
+            const inputText = document.getElementById('inputText').value;
+            const specificWord = document.getElementById('specificWord').value.toLowerCase();
+            const words = inputText.toLowerCase().match(/\b\w+\b/g);
+            let repetitions = 0;
+
+            words.forEach(word => {
+                if (word === specificWord) {
+                    repetitions++;
+                }
+            });
+
+            document.getElementById('result').textContent = `The word "${specificWord}" is repeated ${repetitions} time${repetitions !== 1 ? 's' : ''} in the provided text.`;
+        }
+    </script>
+</body>
+</html>
