@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>밸런스게임 심리테스트 사이트</title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #results {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>재미있는 밸런스게임 심리테스트</h1>
+  <p id="question"></p>
+  <div id="choices">
+    <button id="choiceA" onclick="recordAnswer('A')">A</button>
+    <button id="choiceB" onclick="recordAnswer('B')">B</button>
+  </div>
+  <div id="results">
+    <h2>당신의 타입은: <span id="type"></span>입니다!</h2>
+  </div>
+  <script>
+    var questions = [
+      {text: "좋아하는 사람과 결혼하기 vs 좋아하는 사람과 평생 친구하기", answerA: "결혼주의자", answerB: "우정영원주의자"},
+      {text: "인공지능으로 가득한 세상 vs 맑은 자연의 세상", answerA: "미래 사회 타입", answerB: "자연 소식 타입"},
+      {text: "자신이 가장 좋아하는 음식 먹을 때마다 50만원 받기 vs 2억원 받고 절대 못 먹기", answerA: "현재행복주의자", answerB: "미래투자자"},
+      {text: "1년에 한 번 좋아하는 연예인 만나기 vs 일주일에 한 번 싫어하는 연예인 만나기", answerA: "소중한 만남 타입", answerB: "인내심 강타입"},
+      {text: "슈퍼히어로로 세상을 구하기 vs 과학자로 인류를 발전시키기", answerA: "액션 영웅 타입", answerB: "지성 발전 타입"}
+    ];
+
+    var questionIndex = 0;
+    var tally = {
+      A: 0,
+      B: 0
+    };
+
+    function recordAnswer(answer) {
+      tally[answer] += 1;
+      
+      if (questionIndex < questions.length - 1) {
+        updateQuestion();
+      } else {
+        displayResults();
+      }
+    }
+
+    function updateQuestion() {
+      questionIndex++;
+      document.getElementById("question").innerText = questions[questionIndex].text;
+    }
+
+    function displayResults() {
+      var type = (tally.A > tally.B) ? questions[questionIndex].answerA : questions[questionIndex].answerB;
+      document.getElementById("type").innerText = type;
+      document.getElementById("choices").style.display = "none";
+      document.getElementById("question").style.display = "none";
+      document.getElementById("results").style.display = "block";
+    }
+
+    updateQuestion();
+  </script>
+</body>
+</html>
