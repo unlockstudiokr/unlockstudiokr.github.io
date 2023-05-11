@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미니자동화 도구 상세 페이지</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 1em;
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2em;
+    }
+    section {
+      width: 100%;
+      max-width: 800px;
+      margin-bottom: 2em;
+    }
+    h2 {
+      margin-bottom: 1em;
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 1em;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>미니자동화 도구 상세 페이지</h1>
+  </header>
+  <main>
+    <section>
+      <h2>제작자 정보</h2>
+      <p>커뮤니티 닉네임: <span id="nickname">______</span></p>
+    </section>
+    <section>
+      <h2>미니자동화 프로그램 아이디어</h2>
+      <h3>아이디어 이름: <span id="idea-name">______</span></h3>
+      <h4>설계도 및 구현 방법</h4>
+      <pre id="implementation">______</pre>
+    </section>
+    <section>
+      <h2>프로그램 코드 제출</h2>
+      <h4>HTML 코드</h4>
+      <pre id="html-code">______</pre>
+      <h4>codepen.io 주소</h4>
+      <p><a id="codepen-link" href="#">______</a></p>
+    </section>
+  </main>
+  <script>
+    document.getElementById("nickname").textContent = "사용자_닉네임";
+    document.getElementById("email").textContent = "이메일@example.com";
+    document.getElementById("idea-name").textContent = "아이디어_이름";
+    document.getElementById("implementation").textContent = "설계도 및 구현 방법을 여기에 적어주세요.";
+    document.getElementById("html-code").textContent = "HTML 코드를 여기에 적어주세요.";
+    document.getElementById("codepen-link").href = "https://codepen.io/pen/예시";
+    document.getElementById("codepen-link").textContent = "https://codepen.io/pen/예시";
+  </script>
+</body>
+</html>
