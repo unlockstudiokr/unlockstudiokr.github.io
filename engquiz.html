@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>한국인을 위한 영어 퀴즈</title>
+	<link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+	<header>
+		<h1>English Quiz for Koreans</h1>
+	</header>
+  <style>
+    * {
+	box-sizing: border-box;
+}
+
+header {
+	background-color: #007bff;
+	color: white;
+	padding: 10px;
+	text-align: center;
+}
+
+main {
+	margin: 20px auto;
+	max-width: 800px;
+	padding: 20px;
+}
+
+#question {
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+#options {
+	list-style: none;
+	padding: 0;
+	margin-bottom: 20px;
+}
+
+#options li {
+	margin-bottom: 10px;
+}
+
+#submit {
+	display: block;
+	margin: 10px auto;
+	padding: 10px 20px;
+	background-color: #28a745;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+#result {
+	font-size: 24px;
+	margin-top: 20px;
+}
+
+#score {
+	font-size: 16px;
+	margin-top: 20px;
+	text-align: right;
+}
+  </style>
+	<main>
+		<p id="question"></p>
+		<form id="answers">
+			<ul id="options"></ul>
+			<input type="submit" id="submit" value="Check Answer">
+		</form>
+		<p id="result"></p>
+		<p id="score"></p>
+	</main>
+	<script>
+    const quiz = [
+  {
+    question: "What is the opposite of 'young'?",
+    options: ["Old", "Tall", "Small", "Fast"],
+    answer: 0
+  },
+  {
+    question: "Which word means 'to make someone happy'?",
+    options: ["Smile", "Cry", "Angry", "Laugh"],
+    answer: 3
+  },
+  {
+    question: "How do you say 'hello' in English?",
+    options: ["Hi", "Bye", "Thank you", "Please"],
+    answer: 0
+  },
+  // Add more questions here...
+];
+
+const quizForm = document.getElementById("answers");
+const questionText = document.getElementById("question");
+const optionsList = document.getElementById("options");
+const submitButton = document.getElementById("submit");
+const resultText = document.getElementById("result");
+const scoreText = document.getElementById("score");
+
+let currentQuestion = 0;
+let score = 0;
+
+function showQuestion() {
+  questionText.innerText = quiz[currentQuestion].question;
+
+  optionsList.innerHTML = "";
+
+  quiz[currentQuestion].options.forEach((option, index) => {
+    const li = document.createElement("li");
+    const input = document.createElement("input");
+
+    li.innerText = option;
+    input.type = "radio";
+    input.name = "answer";
+    input.value = index;
+    input.required = true;
+
+    li.insertBefore(input, li.firstChild);
+
+    optionsList.appendChild(li);
+  });
+}
+
+function checkAnswer() {
+  const selectedOption = quizForm.elements.answer.value;
+  const correctOption = quiz[currentQuestion].answer;
+
+  if (selectedOption == correctOption) {
+    score++;
+    resultText.innerText = "Correct!";
+  } else {
+    resultText.innerText = "Sorry, that's incorrect.";
+  }
+
+  currentQuestion++;
+
+  if (currentQuestion < quiz.length) {
+    showQuestion();
+  } else {
+    endGame();
+  }
+}
+
+function endGame() {
+  quizForm.style.display = "none";
+
+  questionText.innerText = `You scored ${score} out of ${quiz.length}.`;
+
+  quiz.forEach((question, index) => {
+    const isCorrect = quizForm.elements[index].value == question.answer;
+
+    if (!isCorrect) {
+      const li = document.createElement("li");
+      const spanQuestion = document.createElement("span");
+      const spanAnswer = document.createElement("span");
+
+      li.classList.add("wrong");
+      spanQuestion.innerText = question.question;
+      spanAnswer.innerText = question.options[question.answer];
+
+      li.appendChild(spanQuestion);
+      li.appendChild(document.createTextNode(" Answer: "));
+      li.appendChild(spanAnswer);
+
+      scoreText.insertAdjacentElement("beforebegin", li);
+    }
+  });
+
+  scoreText.innerText = "Better luck next time!";
+}
+
+quizForm.addEventListener("submit", event => {
+  event.preventDefault();
+  checkAnswer();
+});
+
+showQuestion();
+
+  </script>
+</body>
+</html>
