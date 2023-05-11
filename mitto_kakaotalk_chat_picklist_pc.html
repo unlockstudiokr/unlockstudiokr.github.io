@@ -1,103 +1,133 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat Viewer</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
+To modify the code to improve its design to resemble the Google Material style, the following changes can be made:
 
-    .container {
-      width: 60%;
-      margin: 0 auto;
-    }
+1. Add the Material Design CSS file to the head section of the HTML document:
+```html
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+```
+This will load the necessary Material Design Lite CSS files and the Roboto font.
 
-    .chat {
-      margin-bottom: 20px;
-    }
+2. Replace the existing styles in the head section with the Material Design Lite styles:
+```html
+<style>
+  /* Move this to an external stylesheet if desired */
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
 
-    .controls {
-      margin-bottom: 20px;
-    }
+  .container {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 16px;
+  }
 
-    .chat-display {
-      border: 1px solid #ccc;
-      padding: 10px;
-      height: 400px;
-      overflow-y: scroll;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>대화 확인하기</h1>
-    <div class="chat">
-      <textarea id="chat-data" rows="10" cols="30"></textarea>
-    </div>
-    <div class="controls">
-      <label for="participants">참여자 선택:</label>
-      <select id="participants" onchange="filterMessages()">
-        <option value="all">전체 보기</option>
-      </select>
-    </div>
-    <div class="chat-display" id="chat-display"></div>
+  .mdl-textfield {
+    margin: 8px 0;
+    width: 100%;
+  }
+
+  .mdl-selectfield {
+    margin: 8px 0;
+    width: 100%;
+  }
+
+  .chat-display {
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    padding: 16px;
+    border-radius: 2px;
+    background-color: #f9f9f9;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+
+  .chat-display .chat-message {
+    margin-bottom: 8px;
+  }
+
+  .chat-display .chat-message .participant {
+    color: #9e9e9e;
+    font-weight: 500;
+  }
+
+  .chat-display .chat-message .message {
+    color: #212121;
+  }
+</style>
+```
+This will apply the Material Design Lite styles to the container, form elements, and chat display.
+
+3. Replace the HTML code for the chat data input and select dropdown with Material Design elements:
+```html
+<div class="container">
+  <h1 class="mdl-typography--title">대화 확인하기</h1>
+  <div class="mdl-textfield mdl-js-textfield">
+    <textarea class="mdl-textfield__input" type="text" rows="5" id="chat-data"></textarea>
+    <label class="mdl-textfield__label" for="chat-data">대화 입력...</label>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const chatData = document.getElementById('chat-data');
-      chatData.addEventListener('input', () => {
-        parseChatData(chatData.value);
-      });
-    });
+  <div class="mdl-selectfield mdl-js-selectfield">
+    <select class="mdl-selectfield__select" id="participants" onchange="filterMessages()">
+      <option value="all">전체 보기</option>
+    </select>
+    <label class="mdl-selectfield__label" for="participants">참여자 선택:</label>
+  </div>
+  <div class="chat-display mdl-card mdl-shadow--2dp" id="chat-display"></div>
+</div>
+```
+This will replace the textarea and select elements with Material Design Lite elements that have proper labels and styles.
 
-    function parseChatData(chatData) {
-      const messages = chatData.split('\n');
-      const participants = new Set();
+4. Update the JavaScript to initialize the Material Design Lite components:
+```js
+document.addEventListener('DOMContentLoaded', () => {
+  const chatData = document.getElementById('chat-data');
+  chatData.addEventListener('input', () => {
+    parseChatData(chatData.value);
+  });
 
-      for (const message of messages) {
-        if (!message.startsWith('[')) continue;
-        const participant = message.split(']')[0].slice(1);
-        participants.add(participant);
-      }
+  // Initialize Material Design Lite components
+  componentHandler.upgradeDom();
+});
+```
+This will initialize the Material Design Lite components for the form elements.
 
-      populateParticipantDropdown(participants);
+5. Update the filterMessages() function to use Material Design Lite styles for the chat display:
+```js
+function filterMessages() {
+  const dropdown = document.getElementById('participants');
+  const selectedParticipant = dropdown.value;
+
+  const chatData = document.getElementById('chat-data').value;
+  const messages = chatData.split('\n');
+
+  const chatDisplay = document.getElementById('chat-display');
+
+  // Clear previous messages
+  chatDisplay.innerHTML = '';
+
+  for (const message of messages) {
+    if (!message.startsWith('[')) continue;
+    const participant = message.split(']')[0].slice(1);
+
+    if (selectedParticipant === 'all' || participant === selectedParticipant) {
+      const chatMessage = document.createElement('div');
+      chatMessage.classList.add('chat-message', 'mdl-card');
+      const participantSpan = document.createElement('span');
+      participantSpan.classList.add('participant', 'mdl-card__subtitle-text');
+      participantSpan.textContent = participant;
+      const messageSpan = document.createElement('span');
+      messageSpan.classList.add('message', 'mdl-card__supporting-text');
+      messageSpan.textContent = message;
+      chatMessage.appendChild(participantSpan);
+      chatMessage.appendChild(messageSpan);
+      chatDisplay.appendChild(chatMessage);
     }
+  }
 
-    function populateParticipantDropdown(participants) {
-      const dropdown = document.getElementById('participants');
-      dropdown.innerHTML = '<option value="all">전체 보기</option>';
+  // Upgrade newly-added Material Design Lite components
+  componentHandler.upgradeDom();
+}
+```
+This will create Material Design Lite cards for each chat message, with the participant name and message text separated.
 
-      for (const participant of participants) {
-        const option = document.createElement('option');
-        option.value = participant;
-        option.textContent = participant;
-        dropdown.appendChild(option);
-      }
-    }
-
-    function filterMessages() {
-      const dropdown = document.getElementById('participants');
-      const selectedParticipant = dropdown.value;
-
-      const chatData = document.getElementById('chat-data').value;
-      const messages = chatData.split('\n');
-
-      const chatDisplay = document.getElementById('chat-display');
-      chatDisplay.innerHTML = '';
-
-      for (const message of messages) {
-        if (!message.startsWith('[')) continue;
-        const participant = message.split(']')[0].slice(1);
-
-        if (selectedParticipant === 'all' || participant === selectedParticipant) {
-          const div = document.createElement('div');
-          div.textContent = message;
-          chatDisplay.appendChild(div);
-        }
-      }
-    }
-  </script>
-</body>
-</html>
+With these changes, the code will have a improved design that resembles the Google Material style, without affecting its functionality.
